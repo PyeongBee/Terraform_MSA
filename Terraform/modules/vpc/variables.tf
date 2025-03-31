@@ -1,7 +1,5 @@
 variable "prefix" {}
 variable "postfix" {}
-
-variable "region" {}
 variable "vpc_cidr" {}
 
 variable "public_subnets" {

@@ -15,3 +15,11 @@ private_subnets = [
   { cidr = "10.0.13.0/24", availability_zone = "ap-northeast-2a" },
   { cidr = "10.0.14.0/24", availability_zone = "ap-northeast-2c" },
 ]
+
+admin_access_cidrs = ["112.187.232.129/32"]
+
+ami_aws_linux_kernel = "ami-0c7b1488cc36bacae"
+instance_type        = "t3.small"
+data_volume_size     = "50"
+
+keypair_name = "hans-key"

@@ -38,10 +38,10 @@ output "this_nat_gateway_id" {
   value       = aws_nat_gateway.nat.id
 }
 
-# output "admin_security_group_id" {
-#     description     =   "The ID of Security Group for Admin access"
-#     value           =   aws_security_group.admin.id
-# }
+output "admin_security_group_id" {
+  description = "The ID of Security Group for Admin access"
+  value       = aws_security_group.admin.id
+}
 
 # output "web_security_group_id" {
 #     description     =   "The ID of Security Group for Web(HTTP) access"

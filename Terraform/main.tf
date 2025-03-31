@@ -27,3 +27,15 @@ module "instances" {
 
   keypair_name = var.keypair_name
 }
+
+module "load_balancer" {
+  source = "./modules/alb"
+
+  prefix  = var.prefix
+  postfix = var.postfix
+  vpc_id  = module.vpc.this_vpc_id
+
+  security_group_ids = [module.vpc.admin_security_group_id]
+  public_subnet_ids  = module.vpc.public_subnet_ids
+  subserver_ids      = [module.instances.gitlab_instances_id]
+}

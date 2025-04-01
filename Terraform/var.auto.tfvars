@@ -18,6 +18,7 @@ private_subnets = [
 
 admin_access_cidrs = ["112.187.232.129/32"]
 
+ami_ubuntu_2404      = "ami-05a7f3469a7653972"
 ami_aws_linux_kernel = "ami-070e986143a3041b6"
 instance_type        = "t3.small"
 data_volume_size     = "50"

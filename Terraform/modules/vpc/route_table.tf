@@ -39,7 +39,7 @@ resource "aws_route" "internet_to_nat" {
 }
 
 resource "aws_route_table_association" "private_subnet_associate_to_rt" {
-  count = length(var.public_subnets)
+  count = length(var.private_subnets)
 
   subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id

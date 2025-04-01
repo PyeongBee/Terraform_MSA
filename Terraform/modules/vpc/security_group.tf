@@ -51,3 +51,29 @@ resource "aws_security_group" "admin" {
 #   security_group_id = aws_security_group.admin.id
 #   type              = "ingress"
 # }
+
+# Security Group for VPC Endpoint
+resource "aws_security_group" "vpc_endpoint_sg" {
+  name   = "${var.prefix}-vpc_endpoint-sg-${var.postfix}"
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+    description = "Allow Private Access SSL"
+    cidr_blocks = ["10.0.0.0/16"]
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name       = "${var.prefix}-ssm-vpce-sg-${var.postfix}"
+    Managed_by = "terraform"
+  }
+}

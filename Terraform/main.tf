@@ -21,15 +21,12 @@ module "instances" {
   public_subnet_ids  = module.vpc.public_subnet_ids
   private_subnet_ids = module.vpc.private_subnet_ids
 
-  instance_type        = var.instance_type
-  ami_ubuntu_2404      = var.ami_ubuntu_2404
-  ami_aws_linux_kernel = var.ami_aws_linux_kernel
-  data_volume_size     = var.data_volume_size
+  data_volume_size = var.data_volume_size
 
-  admin_security_group_id = module.vpc.admin_security_group_id
-
-  keypair_name = var.keypair_name
-  ssm_profile  = module.session_manager.ssm_profile_name
+  admin_security_group_id             = module.vpc.admin_security_group_id
+  private_instances_security_group_id = module.vpc.private_instances_security_group_id
+  keypair_name                        = var.keypair_name
+  ssm_profile                         = module.session_manager.ssm_profile_name
 }
 
 module "load_balancer" {

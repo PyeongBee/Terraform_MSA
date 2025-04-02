@@ -20,9 +20,6 @@ variable "private_subnets" {
 
 variable "admin_access_cidrs" {}
 
-variable "ami_ubuntu_2404" {}
-variable "ami_aws_linux_kernel" {}
-variable "instance_type" {}
 variable "data_volume_size" {}
 
 variable "keypair_name" {}

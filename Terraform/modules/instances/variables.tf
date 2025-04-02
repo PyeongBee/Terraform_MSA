@@ -1,6 +1,8 @@
 variable "prefix" {}
 variable "postfix" {}
 
+variable "availability_zones" {}
+
 variable "public_subnet_ids" {
   type = list(string)
 }

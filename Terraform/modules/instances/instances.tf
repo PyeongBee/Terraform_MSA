@@ -19,3 +19,14 @@ resource "aws_instance" "gitlab" {
     Managed_by = "terraform"
   }
 }
+
+# EBS 볼륨 생성 (GitLab 데이터용)
+resource "aws_ebs_volume" "gitlab_data" {
+  availability_zone = var.availability_zones[0]
+  size              = 20
+  type              = "gp3"
+
+  tags = {
+    Name = "${var.prefix}-gitlab-data-volume-${var.postfix}"
+  }
+}

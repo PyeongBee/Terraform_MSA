@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "web_server" {
   bucket        = "${var.prefix}-s3-webserver-${var.postfix}"
-  force_destroy = true
+  force_destroy = false # 객체는 남기기
 }
 
 resource "aws_s3_bucket_public_access_block" "web_server" {

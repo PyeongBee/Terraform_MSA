@@ -4,6 +4,8 @@ variable "postfix" {}
 variable "region" {}
 variable "vpc_cidr" {}
 
+variable "availability_zones" {}
+
 variable "public_subnets" {
   type = list(object({
     cidr              = string

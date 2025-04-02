@@ -54,3 +54,11 @@ module "s3" {
   prefix  = var.prefix
   postfix = var.postfix
 }
+
+module "webhost" {
+  source = "./modules/webhost"
+
+  prefix         = var.prefix
+  postfix        = var.postfix
+  s3_domain_name = module.s3.s3_bucket_domain_name
+}

@@ -64,3 +64,14 @@ module "webhost" {
   postfix        = var.postfix
   s3_domain_name = module.s3.s3_bucket_domain_name
 }
+
+module "database" {
+  source = "./modules/database"
+
+  prefix  = var.prefix
+  postfix = var.postfix
+
+  private_subnet_ids = module.vpc.private_subnet_ids
+
+  rds_security_group_id = module.vpc.rds_security_group_id
+}

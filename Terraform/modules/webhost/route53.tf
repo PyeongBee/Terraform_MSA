@@ -1,7 +1,7 @@
 resource "aws_route53_record" "site" {
   zone_id = "Z06532643EU99ZO2Z2G2E"
   name    = "react.hans.tf-dunn.link"
-  type    = "A"
+  type    = "A" # alias: aws_route53 -> aws_cloudfront
 
   alias {
     name                   = aws_cloudfront_distribution.web_server.domain_name

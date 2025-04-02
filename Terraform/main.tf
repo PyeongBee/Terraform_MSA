@@ -47,3 +47,10 @@ module "session_manager" {
   prefix  = var.prefix
   postfix = var.postfix
 }
+
+module "s3" {
+  source = "./modules/s3"
+
+  prefix  = var.prefix
+  postfix = var.postfix
+}

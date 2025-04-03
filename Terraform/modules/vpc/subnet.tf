@@ -7,8 +7,10 @@ resource "aws_subnet" "public" {
   availability_zone = lookup(var.public_subnets[count.index], "availability_zone")
 
   tags = {
-    Name       = "${var.prefix}-public-subnet${count.index + 1}-${var.postfix}"
-    Managed_by = "terraform"
+    "kubernetes.io/role/elb"                        = "1"
+    "kubernetes.io/cluster/hans-s2s-eks-cluster-tf" = "owned" # 또는 shared
+    Name                                            = "${var.prefix}-public-subnet${count.index + 1}-${var.postfix}"
+    Managed_by                                      = "terraform"
   }
 }
 

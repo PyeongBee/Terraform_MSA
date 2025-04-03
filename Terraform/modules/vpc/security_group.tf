@@ -105,13 +105,21 @@ resource "aws_security_group" "private_database-sg" {
     security_groups = [aws_security_group.admin.id]
   }
 
-  # ingress {
-  #   description = "Allow DB Access from my pc temp" # todo : 임시로 열어둠
-  #   from_port   = 3306
-  #   to_port     = 3306
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["112.187.232.129/32", "14.54.88.118/32"]
-  # }
+  ingress {
+    description     = "Allow DB Access from private_instances"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.private_instances-sg.id]
+  }
+
+  ingress {
+    description     = "Allow DB Access from eks_node_group_sg"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [var.eks_node_group_sg_id]
+  }
 
   ingress {
     description = "Allow DB Access in private"

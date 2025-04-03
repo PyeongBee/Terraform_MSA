@@ -10,6 +10,8 @@ module "vpc" {
   private_subnets = var.private_subnets
 
   admin_access_cidrs = var.admin_access_cidrs
+
+  eks_node_group_sg_id = module.container.eks_node_group_sg_id
 }
 
 module "instances" {

@@ -18,3 +18,5 @@ variable "private_subnets" {
 }
 
 variable "admin_access_cidrs" {}
+
+variable "eks_cluster_sg_id" {}

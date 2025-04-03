@@ -20,8 +20,6 @@ private_subnets = [
   { cidr = "10.0.10.0/24", availability_zone = "ap-northeast-2c" },
 ]
 
-admin_access_cidrs = ["112.187.232.129/32", "14.54.88.118/32"]
-
 data_volume_size = "50"
 
 keypair_name = "hans-key"

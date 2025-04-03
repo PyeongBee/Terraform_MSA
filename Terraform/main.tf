@@ -75,3 +75,13 @@ module "database" {
 
   rds_security_group_id = module.vpc.rds_security_group_id
 }
+
+module "container" {
+  source = "./modules/container"
+
+  prefix  = var.prefix
+  postfix = var.postfix
+
+  vpc_id             = module.vpc.main_vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+}

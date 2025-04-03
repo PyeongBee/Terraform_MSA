@@ -8,14 +8,14 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 }
 
 resource "aws_db_instance" "rds" {
-  identifier             = "${var.prefix}-rdb1-${var.postfix}"
+  identifier             = "${var.prefix}-rdb-${var.postfix}"
   allocated_storage      = 20
   engine                 = "mysql"
   engine_version         = "8.0"
   instance_class         = "db.t3.micro"
   username               = "root"
   password               = "1234qwer!!"
-  db_name                = "HansRdb1"
+  db_name                = "HansRdb1" # db 스키마명
   port                   = 3306
   publicly_accessible    = false
   skip_final_snapshot    = true

@@ -36,6 +36,7 @@ resource "aws_route" "internet_to_nat" {
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
   nat_gateway_id         = aws_nat_gateway.nat.id
+  # gateway_id             = aws_internet_gateway.igw.id
 }
 
 resource "aws_route_table_association" "private_subnet_associate_to_rt" {

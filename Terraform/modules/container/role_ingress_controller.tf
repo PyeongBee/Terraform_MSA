@@ -1,7 +1,4 @@
-data "aws_eks_cluster" "eks_cluster" {
-  name = aws_eks_cluster.eks_cluster.name
-}
-
+# 기 생성된 ALBIngressControllerIAMPolicy 활용
 data "aws_iam_policy" "alb_ingress_controller_policy" {
   name = "ALBIngressControllerIAMPolicy"
 }

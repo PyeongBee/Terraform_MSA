@@ -4,3 +4,5 @@
 keys*
 
 varAdmin.auto.tfvars
+
+kubernetes/*

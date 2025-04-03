@@ -1,18 +1,22 @@
+# 개인 정보
+variable "admin_access_cidrs" {}
+variable "admin_aws_id" {}
+
+# 공통
 variable "prefix" {}
 variable "postfix" {}
+variable "keypair_name" {}
 
+# 네트워크 정보
 variable "region" {}
-variable "vpc_cidr" {}
-
 variable "availability_zones" {}
-
+variable "vpc_cidr" {}
 variable "public_subnets" {
   type = list(object({
     cidr              = string
     availability_zone = string
   }))
 }
-
 variable "private_subnets" {
   type = list(object({
     cidr              = string
@@ -20,8 +24,3 @@ variable "private_subnets" {
   }))
 }
 
-variable "admin_access_cidrs" {}
-
-variable "data_volume_size" {}
-
-variable "keypair_name" {}

@@ -23,8 +23,6 @@ module "instances" {
   public_subnet_ids  = module.vpc.public_subnet_ids
   private_subnet_ids = module.vpc.private_subnet_ids
 
-  data_volume_size = var.data_volume_size
-
   admin_security_group_id             = module.vpc.admin_security_group_id
   private_instances_security_group_id = module.vpc.private_instances_security_group_id
   keypair_name                        = var.keypair_name
@@ -78,6 +76,8 @@ module "database" {
 
 module "container" {
   source = "./modules/container"
+
+  admin_aws_id = var.admin_aws_id
 
   prefix  = var.prefix
   postfix = var.postfix

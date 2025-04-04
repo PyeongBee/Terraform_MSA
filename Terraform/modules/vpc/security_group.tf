@@ -121,13 +121,13 @@ resource "aws_security_group" "private_database-sg" {
     security_groups = [var.eks_node_group_sg_id]
   }
 
-  ingress {
-    description = "Allow DB Access in private"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
-  }
+  # ingress {
+  #   description = "Allow DB Access in private"
+  #   from_port   = 3306
+  #   to_port     = 3306
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["10.0.0.0/16"]
+  # }
 
   egress {
     from_port   = 0

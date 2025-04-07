@@ -1,3 +1,7 @@
+output "gitlab_instance" {
+  value = aws_instance.gitlab
+}
+
 output "gitlab_instances_id" {
   value = aws_instance.gitlab.id
 }

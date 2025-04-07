@@ -1,7 +1,3 @@
-# 개인 정보
-variable "admin_access_cidrs" {}
-variable "admin_aws_id" {}
-
 # 공통
 variable "prefix" {}
 variable "postfix" {}

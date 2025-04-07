@@ -9,7 +9,7 @@ module "vpc" {
   public_subnets  = var.public_subnets
   private_subnets = var.private_subnets
 
-  admin_access_cidrs = var.admin_access_cidrs
+  admin_access_cidrs = local.admin_access_cidrs
 
   eks_node_group_sg_id = module.container.eks_node_group_sg_id
 }
@@ -62,7 +62,12 @@ module "webhost" {
 
   prefix         = var.prefix
   postfix        = var.postfix
+  domain_zone_id = local.secret_data["domain_zone_id"]
+  domain_name    = local.secret_data["domain_name"]
   s3_domain_name = module.s3.s3_bucket_domain_name
+  vpc_id         = module.vpc.main_vpc_id
+  gitlab         = module.instances.gitlab_instance
+  web_alb        = module.load_balancer.web_alb
 }
 
 module "database" {
@@ -79,7 +84,7 @@ module "database" {
 module "container" {
   source = "./modules/container"
 
-  admin_aws_id = var.admin_aws_id
+  admin_aws_id = local.secret_data["admin_aws_id"]
 
   prefix  = var.prefix
   postfix = var.postfix

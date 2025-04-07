@@ -1,3 +1,8 @@
+output "web_alb" {
+  description = "The ALB"
+  value       = aws_lb.alb_sub
+}
+
 output "web_alb_arn" {
   description = "The ARN of ALB"
   value       = aws_lb.alb_sub.arn

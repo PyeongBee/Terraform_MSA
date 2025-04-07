@@ -3,6 +3,4 @@
 *tfstate*
 keys*
 
-varAdmin.auto.tfvars
-
 kubernetes/*

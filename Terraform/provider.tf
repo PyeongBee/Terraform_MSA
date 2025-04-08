@@ -6,6 +6,13 @@ terraform {
     dynamodb_table = "hans-s2s-terraform-lock"
     encrypt        = true
   }
+
+  required_providers {
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.12.1"
+    }
+  }
 }
 
 provider "aws" {

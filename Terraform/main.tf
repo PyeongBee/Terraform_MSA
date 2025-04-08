@@ -68,6 +68,7 @@ module "webhost" {
   vpc_id         = module.vpc.main_vpc_id
   gitlab         = module.instances.gitlab_instance
   web_alb        = module.load_balancer.web_alb
+  admin_aws_id   = local.secret_data["admin_aws_id"]
 }
 
 module "database" {

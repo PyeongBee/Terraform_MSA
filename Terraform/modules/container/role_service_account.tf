@@ -9,12 +9,12 @@ resource "aws_iam_role" "alb_ingress_sa_role" {
       {
         Effect = "Allow",
         Principal = {
-          Federated = "arn:aws:iam::${var.admin_aws_id}:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/A16B143A9D903B359389A033E7450EFD"
+          Federated = "arn:aws:iam::${var.admin_aws_id}:oidc-provider/${var.oidc_provider}"
         },
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "oidc.eks.ap-northeast-2.amazonaws.com/id/A16B143A9D903B359389A033E7450EFD:sub" : "system:serviceaccount:kube-system:${var.prefix}-aws-load-balancer-controller-${var.postfix}"
+            "${var.oidc_provider}:sub" : "system:serviceaccount:kube-system:${var.prefix}-aws-load-balancer-controller-${var.postfix}"
           }
         }
       }
@@ -44,12 +44,12 @@ resource "aws_iam_role" "external_dns_sa_role" {
       {
         Effect = "Allow",
         Principal = {
-          Federated = "arn:aws:iam::${var.admin_aws_id}:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/A16B143A9D903B359389A033E7450EFD"
+          Federated = "arn:aws:iam::${var.admin_aws_id}:oidc-provider/${var.oidc_provider}"
         },
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "oidc.eks.ap-northeast-2.amazonaws.com/id/A16B143A9D903B359389A033E7450EFD:sub" : "system:serviceaccount:kube-system:${var.prefix}-external-dns-helm-${var.postfix}"
+            "${var.oidc_provider}:sub" : "system:serviceaccount:kube-system:${var.prefix}-external-dns-helm-${var.postfix}"
           }
         }
       }

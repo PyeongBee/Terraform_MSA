@@ -7,3 +7,4 @@ variable "vpc_id" {}
 variable "gitlab" {}
 variable "web_alb" {}
 variable "admin_aws_id" {}
+variable "certificate_arn" {}

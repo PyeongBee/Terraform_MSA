@@ -14,6 +14,8 @@ variable "security_group_ids" {
 variable "public_subnet_ids" {
   type = list(string)
 }
-variable "subserver_ids" {
-  type = list(string)
-}
+
+variable "gitlab_instance" {}
+variable "jenkins_instance" {}
+
+variable "domain_name" {}

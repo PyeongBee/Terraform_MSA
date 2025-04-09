@@ -21,3 +21,15 @@ resource "aws_route53_record" "gitlab" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "jenkins" {
+  zone_id = var.domain_zone_id
+  name    = "jenkins.${var.domain_name}"
+  type    = "A" # alias: aws_route53 -> jenkins
+
+  alias {
+    name                   = var.web_alb.dns_name
+    zone_id                = var.web_alb.zone_id
+    evaluate_target_health = false
+  }
+}

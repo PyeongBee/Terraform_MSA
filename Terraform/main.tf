@@ -40,7 +40,10 @@ module "load_balancer" {
 
   security_group_ids = [module.vpc.admin_security_group_id]
   public_subnet_ids  = module.vpc.public_subnet_ids
-  subserver_ids      = [module.instances.gitlab_instance.id, module.instances.jenkins_instance.id]
+  gitlab_instance    = module.instances.gitlab_instance
+  jenkins_instance   = module.instances.jenkins_instance
+
+  domain_name = local.secret_data["domain_name"]
 }
 
 module "session_manager" {

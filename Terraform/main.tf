@@ -11,8 +11,8 @@ module "vpc" {
 
   admin_access_cidrs = local.admin_access_cidrs
 
-  eks_node_group_sg_id = module.container.eks_node_group_sg_id
   prv_inst_sg_id       = module.instances.prv_inst_sg_id
+  eks_node_group_sg_id = module.eks.eks_node_group_sg_id
 }
 
 module "instances" {
@@ -87,8 +87,8 @@ module "database" {
   rds_security_group_id = module.vpc.rds_security_group_id
 }
 
-module "container" {
-  source = "./modules/container"
+module "eks" {
+  source = "./modules/eks"
 
   admin_aws_id = local.secret_data["admin_aws_id"]
 
@@ -98,4 +98,20 @@ module "container" {
   vpc_id             = module.vpc.main_vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
   oidc_provider      = local.secret_data["oidc_provider"]
+}
+
+module "kubernetes" {
+  source = "./modules/kubernetes"
+
+  prefix  = var.prefix
+  postfix = var.postfix
+
+  vpc_id = module.vpc.main_vpc_id
+  region = var.region
+
+  domain_name = local.secret_data["domain_name"]
+
+  cluster_name             = module.eks.cluster_name
+  alb_ingress_sa_role_arn  = module.eks.alb_ingress_sa_role_arn
+  external_dns_sa_role_arn = module.eks.external_dns_sa_role_arn
 }

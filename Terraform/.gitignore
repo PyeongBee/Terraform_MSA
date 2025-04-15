@@ -3,4 +3,4 @@
 *tfstate*
 keys*
 
-kubernetes/*
+modules/kubernetes/old_yamls/*

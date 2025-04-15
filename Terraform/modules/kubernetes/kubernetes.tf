@@ -9,15 +9,15 @@ resource "helm_release" "aws_load_balancer_controller" {
 
   values = [
     yamlencode({
-      clusterName = module.container.cluster_name
-      region      = "ap-northeast-2"
-      vpcId       = module.vpc.main_vpc_id
+      clusterName = "${var.cluster_name}"
+      region      = "${var.region}"
+      vpcId       = "${var.vpc_id}"
 
       serviceAccount = {
         create = true
         name   = "${var.prefix}-aws-load-balancer-controller-${var.postfix}"
         annotations = {
-          "eks.amazonaws.com/role-arn" = module.container.alb_ingress_sa_role_arn
+          "eks.amazonaws.com/role-arn" = "${var.alb_ingress_sa_role_arn}"
         }
       }
 
@@ -49,7 +49,7 @@ resource "helm_release" "external_dns" {
         zoneType = "public"
       }
 
-      domainFilters = ["hans.tf-dunn.link"]
+      domainFilters = ["${var.domain_name}"]
       txtOwnerId    = "eks-cluster-owner"
       policy        = "sync"
 
@@ -57,7 +57,7 @@ resource "helm_release" "external_dns" {
         create = true
         # name   = "${var.prefix}-external-dns-${var.postfix}" # helm으로 external-dns 생성 시 name 없이 해야 함
         annotations = {
-          "eks.amazonaws.com/role-arn" = module.container.external_dns_sa_role_arn
+          "eks.amazonaws.com/role-arn" = "${var.external_dns_sa_role_arn}"
         }
       }
     })

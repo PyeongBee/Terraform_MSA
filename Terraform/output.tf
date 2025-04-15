@@ -1,3 +1,3 @@
 # output "eks_cluster" {
-#   value = module.container.eks_cluster
+#   value = module.eks.eks_cluster
 # }

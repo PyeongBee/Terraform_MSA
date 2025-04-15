@@ -18,6 +18,11 @@ resource "aws_iam_role_policy_attachment" "ssm_ec2_core_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+resource "aws_iam_role_policy_attachment" "ecr_power_user" {
+  role       = aws_iam_role.ec2_ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
+}
+
 resource "aws_iam_instance_profile" "ssm_profile" {
   name = "${var.prefix}-ec2-ssm-profile-${var.postfix}"
   role = aws_iam_role.ec2_ssm_role.name

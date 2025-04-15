@@ -6,7 +6,7 @@ resource "aws_security_group" "prv_inst_sg" {
   vpc_id = var.vpc_id
 
   ingress {
-    description     = "Allow HTTP from ALB"
+    description     = "Allow HTTP access from admin(ALB)"
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -14,7 +14,7 @@ resource "aws_security_group" "prv_inst_sg" {
   }
 
   ingress {
-    description     = "Allow HTTP(8080) from ALB"
+    description     = "Allow HTTP(8080) access from admin(ALB)"
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"

@@ -4,15 +4,23 @@ resource "aws_security_group" "admin" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    description = "Allow HTTP for admin"
-    cidr_blocks = ["0.0.0.0/0"]
+    description = "Allow HTTP access from all traffic in vpc"
+    cidr_blocks = ["10.0.0.0/16"]
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
   }
 
   ingress {
-    description = "Allow SSH for admin"
+    description = "Allow HTTP access from admin"
+    cidr_blocks = var.admin_access_cidrs
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+  }
+
+  ingress {
+    description = "Allow DB access from admin"
     cidr_blocks = var.admin_access_cidrs
     from_port   = 3306
     to_port     = 3306
@@ -20,18 +28,10 @@ resource "aws_security_group" "admin" {
   }
 
   ingress {
-    description = "Allow SSH for admin"
+    description = "Allow SSH access from admin"
     cidr_blocks = var.admin_access_cidrs
     from_port   = 22
     to_port     = 22
-    protocol    = "tcp"
-  }
-
-  ingress {
-    description = "Allow HTTP for admin"
-    cidr_blocks = var.admin_access_cidrs
-    from_port   = 80
-    to_port     = 80
     protocol    = "tcp"
   }
 
@@ -43,7 +43,7 @@ resource "aws_security_group" "admin" {
   }
 
   tags = {
-    Name       = "${var.prefix}-admin-ssh-sg-${var.postfix}"
+    Name       = "${var.prefix}-admin-sg-${var.postfix}"
     Managed_by = "terraform"
   }
 }
@@ -54,7 +54,7 @@ resource "aws_security_group" "vpc_endpoint_sg" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    description = "Allow Private Access SSL"
+    description = "Allow SSL access from all traffic in vpc"
     cidr_blocks = ["10.0.0.0/16"]
     from_port   = 443
     to_port     = 443
@@ -70,56 +70,6 @@ resource "aws_security_group" "vpc_endpoint_sg" {
 
   tags = {
     Name       = "${var.prefix}-ssm-vpce-sg-${var.postfix}"
-    Managed_by = "terraform"
-  }
-}
-
-# Security Group for DB
-resource "aws_security_group" "private_database-sg" {
-  name   = "${var.prefix}-private_database-sg-${var.postfix}"
-  vpc_id = aws_vpc.main.id
-
-  ingress {
-    description     = "Allow DB Access from Admin"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [aws_security_group.admin.id]
-  }
-
-  ingress {
-    description     = "Allow DB Access from private_instances"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [var.prv_inst_sg_id]
-  }
-
-  ingress {
-    description     = "Allow DB Access from eks_node_group_sg"
-    from_port       = 3306
-    to_port         = 3306
-    protocol        = "tcp"
-    security_groups = [var.eks_node_group_sg_id]
-  }
-
-  # ingress {
-  #   description = "Allow DB Access in private"
-  #   from_port   = 3306
-  #   to_port     = 3306
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["10.0.0.0/16"]
-  # }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name       = "${var.prefix}-private_database-sg-${var.postfix}"
     Managed_by = "terraform"
   }
 }

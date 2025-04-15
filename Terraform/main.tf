@@ -82,9 +82,12 @@ module "database" {
   prefix  = var.prefix
   postfix = var.postfix
 
+  vpc_id             = module.vpc.main_vpc_id
   private_subnet_ids = module.vpc.private_subnet_ids
 
-  rds_security_group_id = module.vpc.rds_security_group_id
+  admin_sg_id          = module.vpc.admin_security_group_id
+  prv_inst_sg_id       = module.instances.prv_inst_sg_id
+  eks_node_group_sg_id = module.eks.eks_node_group_sg_id
 }
 
 module "eks" {

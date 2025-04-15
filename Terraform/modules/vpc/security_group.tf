@@ -4,6 +4,14 @@ resource "aws_security_group" "admin" {
   vpc_id = aws_vpc.main.id
 
   ingress {
+    description = "Allow HTTP for admin"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+  }
+
+  ingress {
     description = "Allow SSH for admin"
     cidr_blocks = var.admin_access_cidrs
     from_port   = 3306
@@ -66,40 +74,6 @@ resource "aws_security_group" "vpc_endpoint_sg" {
   }
 }
 
-# Security Group for ALB to EC2
-resource "aws_security_group" "private_instances-sg" {
-  name   = "${var.prefix}-private_instances-sg-${var.postfix}"
-  vpc_id = aws_vpc.main.id
-
-  ingress {
-    description     = "Allow HTTP from ALB"
-    from_port       = 80
-    to_port         = 80
-    protocol        = "tcp"
-    security_groups = [aws_security_group.admin.id]
-  }
-
-  ingress {
-    description     = "Allow HTTP(8080) from ALB"
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    security_groups = [aws_security_group.admin.id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name       = "${var.prefix}-private_instances-sg-${var.postfix}"
-    Managed_by = "terraform"
-  }
-}
-
 # Security Group for DB
 resource "aws_security_group" "private_database-sg" {
   name   = "${var.prefix}-private_database-sg-${var.postfix}"
@@ -118,7 +92,7 @@ resource "aws_security_group" "private_database-sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = [aws_security_group.private_instances-sg.id]
+    security_groups = [var.prv_inst_sg_id]
   }
 
   ingress {

@@ -12,6 +12,7 @@ module "vpc" {
   admin_access_cidrs = local.admin_access_cidrs
 
   eks_node_group_sg_id = module.container.eks_node_group_sg_id
+  prv_inst_sg_id       = module.instances.prv_inst_sg_id
 }
 
 module "instances" {
@@ -20,15 +21,15 @@ module "instances" {
   prefix  = var.prefix
   postfix = var.postfix
 
+  vpc_id             = module.vpc.main_vpc_id
   availability_zones = var.availability_zones
 
   public_subnet_ids  = module.vpc.public_subnet_ids
   private_subnet_ids = module.vpc.private_subnet_ids
 
-  admin_security_group_id             = module.vpc.admin_security_group_id
-  private_instances_security_group_id = module.vpc.private_instances_security_group_id
-  keypair_name                        = var.keypair_name
-  ssm_profile                         = module.session_manager.ssm_profile_name
+  admin_security_group_id = module.vpc.admin_security_group_id
+  keypair_name            = var.keypair_name
+  ssm_profile             = module.session_manager.ssm_profile_name
 }
 
 module "load_balancer" {

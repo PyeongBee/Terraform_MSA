@@ -1,6 +1,7 @@
 variable "prefix" {}
 variable "postfix" {}
 
+variable "vpc_id" {}
 variable "availability_zones" {}
 
 variable "public_subnet_ids" {
@@ -11,6 +12,5 @@ variable "private_subnet_ids" {
 }
 
 variable "admin_security_group_id" {}
-variable "private_instances_security_group_id" {}
 variable "keypair_name" {}
 variable "ssm_profile" {}

@@ -4,7 +4,7 @@ resource "aws_instance" "gitlab" {
   subnet_id                   = var.private_subnet_ids[2]
   instance_type               = "t2.large"
   key_name                    = var.keypair_name
-  vpc_security_group_ids      = [var.admin_security_group_id, var.private_instances_security_group_id]
+  vpc_security_group_ids      = [var.admin_security_group_id, aws_security_group.prv_inst_sg.id]
 
   iam_instance_profile = var.ssm_profile
 
@@ -26,7 +26,7 @@ resource "aws_instance" "jenkins" {
   subnet_id                   = var.private_subnet_ids[2]
   instance_type               = "t2.large"
   key_name                    = var.keypair_name
-  vpc_security_group_ids      = [var.admin_security_group_id, var.private_instances_security_group_id]
+  vpc_security_group_ids      = [var.admin_security_group_id, aws_security_group.prv_inst_sg.id]
 
   iam_instance_profile = var.ssm_profile
 

@@ -43,11 +43,6 @@ output "admin_security_group_id" {
   value       = aws_security_group.admin.id
 }
 
-output "private_instances_security_group_id" {
-  description = "The ID of Security Group for Private Instances access"
-  value       = aws_security_group.private_instances-sg.id
-}
-
 output "rds_security_group_id" {
   description = "The ID of Security Group for RDS access"
   value       = aws_security_group.private_database-sg.id

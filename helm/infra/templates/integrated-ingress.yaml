@@ -7,59 +7,59 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80, "HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.Certificate }}
+    alb.ingress.kubernetes.io/certificate-arn: '{{ .Values.Certificate }}'
     alb.ingress.kubernetes.io/ssl-redirect: '443'
-    external-dns.alpha.kubernetes.io/hostname: {{ .Values.Svc1Name }}.{{ .Values.DomainName }},{{ .Values.Svc2Name }}.{{ .Values.DomainName }}
+    external-dns.alpha.kubernetes.io/hostname: '{{ .Values.Svc1Name }}.{{ .Values.DomainName }},{{ .Values.Svc2Name }}.{{ .Values.DomainName }}'
 spec:
   ingressClassName: alb
   rules:
-    - host: {{ .Values.Svc1Name }}.{{ .Values.DomainName }}
+    - host: '{{ .Values.Svc1Name }}.{{ .Values.DomainName }}'
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.Svc1Name }}-service
+                name: '{{ .Values.Svc1Name }}-service'
                 port:
                   number: 8080
-    - host: {{ .Values.Svc2Name }}.{{ .Values.DomainName }}
+    - host: '{{ .Values.Svc2Name }}.{{ .Values.DomainName }}'
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: {{ .Values.Svc2Name }}-service
+                name: '{{ .Values.Svc2Name }}-service'
                 port:
                   number: 80
-    - host: grafana.{{ .Values.DomainName }}
+    - host: 'grafana.{{ .Values.DomainName }}'
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: hans-s2s-kube-prometheus-stack-tf-grafana
+                name: kube-prometheus-stack-grafana
                 port:
                   number: 80
-    - host: prometheus.{{ .Values.DomainName }}
+    - host: 'prometheus.{{ .Values.DomainName }}'
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: hans-s2s-kube-prometheus-s-prometheus
+                name: kube-prometheus-stack-prometheus
                 port:
                   number: 9090
-    - host: alertmanager.{{ .Values.DomainName }}
+    - host: 'alertmanager.{{ .Values.DomainName }}'
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: hans-s2s-kube-prometheus-s-alertmanager
+                name: kube-prometheus-stack-alertmanager
                 port:
                   number: 9093

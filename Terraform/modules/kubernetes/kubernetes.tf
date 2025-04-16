@@ -82,22 +82,3 @@ resource "helm_release" "argocd" {
     value = var.admin_password_bcrypt
   }
 }
-
-resource "helm_release" "kube_prometheus_stack" {
-  name       = "${var.prefix}-kube-prometheus-stack-${var.postfix}"
-  namespace  = "default"
-  repository = "https://prometheus-community.github.io/helm-charts"
-  chart      = "kube-prometheus-stack"
-  version    = "70.5.0"
-
-  create_namespace = true
-
-  values = [
-    file("${path.module}/yamls/kube-prometheus-values.yaml")
-  ]
-
-  set_sensitive {
-    name  = "grafana.adminPassword"
-    value = "1234qwer!!"
-  }
-}

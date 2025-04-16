@@ -4,16 +4,8 @@ resource "aws_security_group" "admin" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    description = "Allow HTTP access from all traffic in vpc"
-    cidr_blocks = ["10.0.0.0/16"]
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-  }
-
-  ingress {
-    description = "Allow HTTP access from admin"
-    cidr_blocks = var.admin_access_cidrs
+    description = "Allow HTTP access from all traffic"
+    cidr_blocks = ["0.0.0.0/0"]
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"

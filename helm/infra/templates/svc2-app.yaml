@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .Values.Svc2Name }}
+  namespace: {{ .Values.ArgoNameSpace }}
+spec:
+  project: default
+  source:
+    repoURL: {{ .Values.GitlabUrl }}/hans-s2s/hans-s2s-{{ .Values.Svc2Name }}.git
+    targetRevision: main
+    path: helm/{{ .Values.Svc2Name }}
+    helm:
+      valueFiles:
+        - Values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

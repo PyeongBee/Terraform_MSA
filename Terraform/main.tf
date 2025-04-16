@@ -117,4 +117,6 @@ module "kubernetes" {
   cluster_name             = module.eks.cluster_name
   alb_ingress_sa_role_arn  = module.eks.alb_ingress_sa_role_arn
   external_dns_sa_role_arn = module.eks.external_dns_sa_role_arn
+
+  admin_password_bcrypt = local.secret_data["admin_password_bcrypt"]
 }

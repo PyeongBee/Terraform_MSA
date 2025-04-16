@@ -63,3 +63,22 @@ resource "helm_release" "external_dns" {
     })
   ]
 }
+
+resource "helm_release" "argocd" {
+  name       = "${var.prefix}-argocd-${var.postfix}"
+  namespace  = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  version    = "2.4.9"
+
+  create_namespace = true
+
+  values = [
+    file("${path.module}/yamls/argocd-values.yaml")
+  ]
+
+  set_sensitive {
+    name  = "configs.secret.argocdServerAdminPassword"
+    value = var.admin_password_bcrypt
+  }
+}

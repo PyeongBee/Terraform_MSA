@@ -66,7 +66,7 @@ resource "helm_release" "external_dns" {
 
 resource "helm_release" "argocd" {
   name       = "${var.prefix}-argocd-${var.postfix}"
-  namespace  = "default"
+  namespace  = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argo-cd"
   version    = "7.7.11"

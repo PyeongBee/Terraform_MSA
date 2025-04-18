@@ -119,4 +119,5 @@ module "kubernetes" {
   external_dns_sa_role_arn = module.eks.external_dns_sa_role_arn
 
   admin_password_bcrypt = local.secret_data["admin_password_bcrypt"]
+  gitlab_token          = local.secret_data["gitlab_token"]
 }

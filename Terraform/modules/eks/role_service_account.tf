@@ -61,3 +61,55 @@ resource "aws_iam_role_policy_attachment" "external_dns_policy" {
   role       = aws_iam_role.external_dns_sa_role.name
   policy_arn = "arn:aws:iam::${var.admin_aws_id}:policy/externaldns-policy"
 }
+
+# IRSA용 IAM Role 생성
+# argo image updater ServiceAccount에서 이 역할을 사용할 수 있도록 신뢰 정책 설정
+resource "aws_iam_role" "image_updater_sa_role" {
+  name = "${var.prefix}-image-updater-role-${var.postfix}"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Federated = "arn:aws:iam::${var.admin_aws_id}:oidc-provider/${var.oidc_provider}"
+        }
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Condition = {
+          StringEquals = {
+            "${var.oidc_provider}:sub" : "system:serviceaccount:argocd:${var.prefix}-argocd-image-updater-${var.postfix}"
+          }
+        }
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "ecr_readonly" {
+  name        = "${var.prefix}-ecr_readonly_policy-${var.postfix}"
+  description = "ECR ReadOnly policy for ArgoCD Image Updater"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:DescribeImages",
+          "ecr:GetAuthorizationToken",
+          "ecr:ListImages"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_policy" {
+  role       = aws_iam_role.image_updater_sa_role.name
+  policy_arn = aws_iam_policy.ecr_readonly.arn
+}
+

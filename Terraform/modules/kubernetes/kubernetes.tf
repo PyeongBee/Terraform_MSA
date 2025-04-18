@@ -82,3 +82,29 @@ resource "helm_release" "argocd" {
     value = var.admin_password_bcrypt
   }
 }
+
+resource "helm_release" "argocd_image_updater" {
+  name       = "${var.prefix}-argocd-image-updater-${var.postfix}"
+  namespace  = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argocd-image-updater"
+  version    = "0.12.1"
+
+  values = [file("${path.module}/yamls/argocd-image-updater-values.yaml")]
+
+}
+
+resource "kubernetes_secret" "image_updater_git_cred" {
+  metadata {
+    name      = "git-creds"
+    namespace = "argocd"
+  }
+
+  data = {
+    "username" = base64encode("root")
+    "password" = base64encode(var.gitlab_token)
+  }
+
+  type = "Opaque"
+}
+

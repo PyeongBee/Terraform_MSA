@@ -3,6 +3,11 @@ kind: Application
 metadata:
   name: '{{ .Values.Svc1Name }}'
   namespace: '{{ .Values.ArgoNameSpace }}'
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: 'svc1={{ .Values.ecr.repository.url }}'
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/allow-tags: regexp:^svc1-[0-9a-z]+$
+    argocd-image-updater.argoproj.io/update-strategy: latest
 spec:
   project: default
   source:

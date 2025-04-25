@@ -1,3 +1,7 @@
+locals {
+  service_init = templatefile("${path.module}/templates/userdata.sh.tpl", {})
+}
+
 resource "aws_instance" "gitlab" {
   associate_public_ip_address = false
   ami                         = "ami-05a7f3469a7653972"
@@ -12,7 +16,7 @@ resource "aws_instance" "gitlab" {
     volume_size = "50"
   }
 
-  user_data = data.template_file.service_init.rendered
+  user_data = local.service_init
 
   tags = {
     Name       = "${var.prefix}-gitlab-${var.postfix}"
@@ -34,7 +38,7 @@ resource "aws_instance" "jenkins" {
     volume_size = "20"
   }
 
-  user_data = data.template_file.service_init.rendered
+  user_data = local.service_init
 
   tags = {
     Name       = "${var.prefix}-jenkins-${var.postfix}"

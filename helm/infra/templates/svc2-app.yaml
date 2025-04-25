@@ -7,7 +7,7 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: 'svc2={{ .Values.ecr.repository.url }}'
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/allow-tags: regexp:^svc2-[0-9a-z]+$
-    argocd-image-updater.argoproj.io/update-strategy: latest
+    argocd-image-updater.argoproj.io/update-strategy: newest-build
 spec:
   project: default
   source:

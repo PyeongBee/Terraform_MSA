@@ -78,7 +78,7 @@ resource "aws_iam_role" "image_updater_sa_role" {
         Action = "sts:AssumeRoleWithWebIdentity"
         Condition = {
           StringEquals = {
-            "${var.oidc_provider}:sub" : "system:serviceaccount:argocd:${var.prefix}-argocd-image-updater-${var.postfix}"
+            "${var.oidc_provider}:sub" : "system:serviceaccount:kube-system:argocd-image-updater"
           }
         }
       }
@@ -113,3 +113,16 @@ resource "aws_iam_role_policy_attachment" "attach_policy" {
   policy_arn = aws_iam_policy.ecr_readonly.arn
 }
 
+# resource "kubernetes_manifest" "patch_sa" {
+#   manifest = {
+#     apiVersion = "v1"
+#     kind       = "ServiceAccount"
+#     metadata = {
+#       name      = "argocd-image-updater"
+#       namespace = "argocd"
+#       annotations = {
+#         "eks.amazonaws.com/role-arn" = aws_iam_role.image_updater_sa_role.arn
+#       }
+#     }
+#   }
+# }

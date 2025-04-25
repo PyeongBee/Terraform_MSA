@@ -10,6 +10,14 @@ resource "aws_security_group" "eks_cluster_sg" {
     security_groups = [aws_security_group.eks_node_group_sg.id]
   }
 
+  ingress {
+    description = "Allow all traffic from all traffic"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0

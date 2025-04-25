@@ -90,7 +90,66 @@ resource "helm_release" "argocd_image_updater" {
   chart      = "argocd-image-updater"
   version    = "0.12.1"
 
-  values = [file("${path.module}/yamls/argocd-image-updater-values.yaml")]
+  set {
+    name  = "config.argocd.serverAddress"
+    value = "https://argocd.${var.domain_name}"
+  }
+
+  set {
+    name  = "config.registry.ecr.enabled"
+    value = "true"
+  }
+
+  set {
+    name  = "config.registry.ecr.autoLogin"
+    value = "true"
+  }
+
+  set {
+    name  = "config.git.writeBackMethod"
+    value = "git"
+  }
+
+  set {
+    name  = "config.git.commitUser"
+    value = "Argo Image Updater <pyeongbee0806@gmail.com>"
+  }
+
+  # Git credentials secret은 아래에 별도 생성
+  set {
+    name  = "secret.git-creds.username"
+    value = "root"
+  }
+
+  set {
+    name  = "secret.git-creds.password"
+    value = var.gitlab_token
+  }
+
+  set {
+    name  = "registries[0].name"
+    value = "ecr"
+  }
+
+  set {
+    name  = "registries[0].api_url"
+    value = "https://${var.admin_aws_id}.dkr.ecr.ap-northeast-2.amazonaws.com"
+  }
+
+  set {
+    name  = "registries[0].default"
+    value = "true"
+  }
+
+  set {
+    name  = "registries[0].awsRegion"
+    value = var.region
+  }
+
+  set {
+    name  = "registries[0].use_iam_auth"
+    value = "true"
+  }
 
 }
 

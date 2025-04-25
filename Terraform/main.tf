@@ -112,7 +112,8 @@ module "kubernetes" {
   vpc_id = module.vpc.main_vpc_id
   region = var.region
 
-  domain_name = local.secret_data["domain_name"]
+  admin_aws_id = local.secret_data["admin_aws_id"]
+  domain_name  = local.secret_data["domain_name"]
 
   cluster_name             = module.eks.cluster_name
   alb_ingress_sa_role_arn  = module.eks.alb_ingress_sa_role_arn

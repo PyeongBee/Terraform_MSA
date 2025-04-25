@@ -4,6 +4,7 @@ variable "postfix" {}
 variable "vpc_id" {}
 variable "region" {}
 
+variable "admin_aws_id" {}
 variable "domain_name" {}
 
 variable "cluster_name" {}
